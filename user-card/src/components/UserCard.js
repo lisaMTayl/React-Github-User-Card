@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-
-import Table from '@material-ui/core/Table';
 import Loader from "./Loader";
 
-export default class Card extends Component {
+export default class UserCard extends Component {
   constructor(props) {
     super(props);
 
@@ -17,13 +15,12 @@ export default class Card extends Component {
       followers: "0",
       gists: "0",
       error: null,
-      isLoading: true,
-      followers_url: ""
+      isLoading: true
     };
   }
 
   componentWillMount() {
-    const url = `https://api.github.com/users/lisaMTayl`;
+    const url = "https://api.github.com/users/lisaMTayl";
     fetch(url)
       .then(results => {
         if (results.ok) return results.json();
@@ -38,8 +35,7 @@ export default class Card extends Component {
           public_repos: data.public_repos,
           gists: data.public_gists,
           followers: data.followers,
-          followers_url: data.followers_url,
-          isLoading: false,
+          isLoading: false
         });
       })
       .catch(error => {
@@ -72,18 +68,17 @@ export default class Card extends Component {
       <div classname="card-container">
         <div className="card-header">
         <img src={this.state.avatar_url} className="img-custom" circle />
-        </div>
-        <div className="card-body">
+      </div><
+        div className="card-body">
           <h3>{this.state.name}</h3>
           <h4>
-            <a href={"https://github.com/" + this.state.username}>
-              @{this.state.username}
-            </a>
+            <a href={`https://github.com/lisaMTayl`}>
+              @lisaMTayl</a>
           </h4>
           <p>{this.state.company}</p>
           <p>{this.state.location}</p>
 
-          <Table>
+          <div>
             <thead>
             <tr>
               <th>REPOS</th>
@@ -97,11 +92,8 @@ export default class Card extends Component {
               <td>{this.state.gists}</td>
               <td>{this.state.followers}</td>
             </tr>
-            <tr>
-              <td>{this.state.followers_url}</td>
-            </tr>
             </tbody>
-          </Table>
+          </div>
         </div>
       </div>
     );

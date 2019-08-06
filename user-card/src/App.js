@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "../src/App.css";
-import SearchForm from "./components/SearchForm";
+import "./App.css";
+
 import UserCard from "./components/UserCard";
+import Followers from "./components/Followers";
+
 
 class App extends Component {
   constructor(props) {
@@ -10,32 +12,28 @@ class App extends Component {
       searchQuery: "",
       didSubmit: false
     };
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  handleSubmit = () => {
+  onSubmit() {
     this.setState({
       didSubmit: true
     });
-  };
-
-  handleChange = (e) => {
+  }
+  onChange(event) {
     this.setState({
-      searchQuery: e.target.value,
+      searchQuery: event.target.value,
       didSubmit: false
     });
-  };
+  }
 
   render() {
+
     return (
-      <div className="App">
-        <SearchForm
-          onChange={this.handleChange}
-          onClick={this.handleSubmit}
-          value={searchQuery}
-        />
-        {this.state.didSubmit && <UserCard username={searchQuery} />}
+      <div>
+        <UserCard/>
+        <Followers/>
       </div>
     );
   }
