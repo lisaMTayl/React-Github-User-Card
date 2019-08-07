@@ -4,39 +4,56 @@ import "./App.css";
 import UserCard from "./components/UserCard";
 import Followers from "./components/Followers";
 
+import Container from "@material-ui/core/Container";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+
+class App extends React.Component {
+  constructor() {
+    super()
     this.state = {
-      searchQuery: "",
-      didSubmit: false
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+      userData: [],
+      followers: []
+    }
+
   }
 
-  onSubmit() {
-    this.setState({
-      didSubmit: true
-    });
+  componentDidMount() {
+    this.fetchUser();
   }
-  onChange(event) {
-    this.setState({
-      searchQuery: event.target.value,
-      didSubmit: false
-    });
-  }
+
+  handleChange = () => {
+
+  };
+
+  fetchUser = () => {
+    const urls = [
+      'https://api.github.com/users/lisaMTayl',
+      'https://api.github.com/users/lisaMTayl/followers'
+    ]
+    Promise.all(urls.map(url => fetch(url)
+      .then(res => res.json())
+      .catch(err => console.error('Request failed', err))
+    ))
+      .then(data => this.setState({
+        user: data[0],
+        followers: data[1]
+      }))
+
+  };
+
+
 
   render() {
-
     return (
-      <div>
-        <UserCard/>
-        <Followers/>
-      </div>
+      <Container maxWidth="sm" alignItems="center">
+        <h2>{this.state.name}</h2>
+        <p>{this.state.public_repos}</p>
+        <UserCard key={this.state.login} {...this.state.user}/>
+        <Followers followers={this.state.followers}/>
+      </Container>
     );
   }
+
 }
 
 export default App;

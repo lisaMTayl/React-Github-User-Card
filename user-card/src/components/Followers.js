@@ -1,42 +1,18 @@
-import React, { Component } from "react";
-import Loader from "./Loader";
+import React from "react";
+import UserCard from './UserCard';
 
-export default class Followers extends Component {
-  constructor() {
-    super();
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
 
-    this.state = {
-      followers: []
-    }
-  }
+const Followers = (props) => {
+  console.log(props);
+  return(
+    <div>
+      {props.followers.map(e =>
+        <UserCard key={e.login} {...e}/>
+      )}
+    </div>
+  )
+};
 
-  componentDidMount() {
-    fetch("https://api.github.com/users/lisaMTayl/followers")
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          followers: data
-        });
-      })
-      .catch(error => {
-        this.setState({ error, isLoading: false }, () =>
-          console.log("callback", error)
-        );
-      });
-  }
-
-  render() {
-        return (
-          this.state.followers.map(e => {
-            return ( <div>
-              <img src={e.avatar_url} className="img-custom" circle/>
-              <p>{e.login}</p>
-                <p>{e.idpLoginUrl}</p>
-            </div>
-            )
-          })
-    );
-  }
-}
+export default Followers;
